@@ -35,9 +35,13 @@ this_map = Map.Map("data/jsonmap2.json")
 # Get sprites
 tile_set_img = pygame.image.load("data/tilemap_packed.png")
 # get the first tile of the first layer
-gid = is_tile_rotated(this_map.tile_set, this_map.layers[0][1][0])
+gid = is_tile_rotated(this_map.tile_set, this_map.layers[0][0][0])
 print(f"gid: {gid}")
 first_sprite = Sprite.SpriteSheet(tile_set_img).get_sprite(gid, 16, 16, 27)
+#TODO:
+# Make function which returns a 2d dictionary with an image of each tile that is used and its gid
+# rotated tiles get stored as separate images, with the same gid
+
 
 print(this_map.layers[0][0])
 string_unrotated = ""
