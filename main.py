@@ -1,5 +1,6 @@
 import Map
 import pygame
+import SpriteSheet as Sprite
 
 pygame.init()
 
@@ -10,21 +11,21 @@ clock = pygame.time.Clock()
 font = pygame.font.SysFont("Courier New", 20, True)
 
 # Tile stuff
-def is_tile_rotated(tileset, tile):
+def is_tile_rotated(tile_set, tile):
     rotated = 0x20000000
     hor_flip = 0x80000000
     ver_flip = 0x40000000
 
-    tilecount = tileset["tilecount"]
-    if 0 < tile - rotated < tilecount:
+    tile_count = tile_set["tilecount"]
+    if 0 < tile - rotated < tile_count:  # rotated diagonally
         return tile - rotated
-    if 0 < tile - hor_flip < tilecount:
+    if 0 < tile - hor_flip < tile_count:  # horizontally flipped
         return tile - hor_flip
-    if 0 < tile - ver_flip < tilecount:
+    if 0 < tile - ver_flip < tile_count:  # Vertically flipped
         return tile - ver_flip
-    if 0 < tile - (hor_flip + rotated) < tilecount:
+    if 0 < tile - (hor_flip + rotated) < tile_count:  # horizontally flipped & rotated diagonally
         return tile - (hor_flip + rotated)
-    if 0 < tile - (ver_flip + rotated) < tilecount:
+    if 0 < tile - (ver_flip + rotated) < tile_count: # vertically flipped & rotated diagonally
         return tile - (ver_flip + rotated)
 
     return tile
@@ -36,6 +37,8 @@ string_unrotated = ""
 for rots in this_map.layers[0][0]:
     string_unrotated += str(is_tile_rotated(this_map.tile_set, rots)) + " / "
 print(string_unrotated)
+
+tilemap = Sprite.SpriteSheet(this_map.tile_set)
 
 # UPDATE
 done = False
@@ -53,6 +56,10 @@ while not done:
     # DRAWING
     win.fill((0, 0, 0))
 
+    # OBJECTS
+
+
+    # TEXT
     white = (255, 255, 255)
     fps_text = "FPS: " + str(round(clock.get_fps()))
     fps_text_render = font.render(fps_text, True, white)
