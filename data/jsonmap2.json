@@ -3,10 +3,22 @@
  "infinite":false,
  "layers":[
         {
-         "data":[1, 0, 0, 0, 314, 171, 0, 0, 0, 341, 282, 0, 387, 0, 0, 369, 0, 0, 0, 0, 441, 0, 0, 0, 208],
+         "data":[29, 1610613143, 463, 2684354967, 29, 29, 1610613143, 463, 2684354967, 29, 29, 1610613143, 463, 2684354967, 29, 29, 1610613143, 463, 2684354967, 29, 29, 1610613143, 463, 2684354967, 29],
          "height":5,
          "id":1,
-         "name":"Tile Layer 1",
+         "name":"Ground",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":5,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[2147483840, 0, 426, 0, 192, 2147483813, 0, 0, 0, 165, 2147483840, 0, 453, 0, 192, 2147483813, 0, 480, 0, 165, 2147483840, 0, 0, 0, 192],
+         "height":5,
+         "id":4,
+         "name":"Objects",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
@@ -14,7 +26,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":2,
+ "nextlayerid":5,
  "nextobjectid":1,
  "orientation":"orthogonal",
  "renderorder":"right-down",
@@ -22,8 +34,17 @@
  "tileheight":16,
  "tilesets":[
         {
+         "columns":27,
          "firstgid":1,
-         "source":"tilemap_packed.tsx"
+         "image":"tilemap_packed.png",
+         "imageheight":288,
+         "imagewidth":432,
+         "margin":0,
+         "name":"tilemap_packed",
+         "spacing":0,
+         "tilecount":486,
+         "tileheight":16,
+         "tilewidth":16
         }],
  "tilewidth":16,
  "type":"map",
