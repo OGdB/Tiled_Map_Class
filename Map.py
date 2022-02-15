@@ -7,8 +7,9 @@ class Map:
             raw_data = json.load(fp)
             self.map_width = raw_data['width']
             self.map_height = raw_data['height']
-
-            self.tile_set = raw_data['tilesets'][0]
+            self.tile_sets = []
+            for tile_set in raw_data['tilesets']:
+                self.tile_sets.append(tile_set)
             self.tile_width = raw_data['tileheight']
             self.tile_height = raw_data['tilewidth']
 
