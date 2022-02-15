@@ -59,8 +59,17 @@
          "tilewidth":16
         }, 
         {
+         "columns":30,
          "firstgid":487,
-         "source":"roguelikeDungeon_transparent.tsx"
+         "image":"roguelikeDungeon_transparent.png",
+         "imageheight":305,
+         "imagewidth":492,
+         "margin":1,
+         "name":"roguelikeDungeon_transparent",
+         "spacing":0,
+         "tilecount":570,
+         "tileheight":16,
+         "tilewidth":16
         }],
  "tilewidth":16,
  "type":"map",

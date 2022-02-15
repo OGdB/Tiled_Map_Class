@@ -5,7 +5,12 @@ class Map:
     def __init__(self, json_path):
         with open(json_path, "r") as fp:
             raw_data = json.load(fp)
+            self.map_width = raw_data['width']
+            self.map_height = raw_data['height']
+
             self.tile_set = raw_data['tilesets'][0]
+            self.tile_width = raw_data['tileheight']
+            self.tile_height = raw_data['tilewidth']
 
             # Get every layer and store in layers list
             self.layers = []

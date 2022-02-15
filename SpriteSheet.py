@@ -8,9 +8,8 @@ class SpriteSheet:
         self.sheet = image
 
     def get_x(self, frame, columns):
-        while frame > columns:
-            frame -= columns
-        return (frame - 1) * 16
+        frame = (frame % columns - 1)  # get the remainder of frame / columns as a tile
+        return frame * 16
 
     def get_sprite(self, frame, tile_width, tile_height, columns):
         """return a specific sprite from sprite sheet"""

@@ -3,12 +3,14 @@ import pygame
 import SpriteSheet as Sprite
 
 pygame.init()
+this_map = Map.Map("data/jsonmap2.json")
+tile_map = Sprite.SpriteSheet(this_map.tile_set)
 
-win_w = 800
-win_h = 600
+win_w = this_map.map_width * this_map.tile_width
+win_h = this_map.map_height * this_map.tile_height
 win = pygame.display.set_mode((win_w, win_h))
-clock = pygame.time.Clock()
-font = pygame.font.SysFont("Courier New", 20, True)
+#clock = pygame.time.Clock()
+#font = pygame.font.SysFont("Courier New", 20, True)
 
 # Tile stuff
 def is_tile_rotated(tile_set, tile):
@@ -30,17 +32,12 @@ def is_tile_rotated(tile_set, tile):
 
     return tile
 
-this_map = Map.Map("data/jsonmap2.json")
-
 # Get sprites
 tile_set_img = pygame.image.load("data/tilemap_packed.png")
 # get the first tile of the first layer
 gid = is_tile_rotated(this_map.tile_set, this_map.layers[0][0][0])
 print(f"gid: {gid}")
 first_sprite = Sprite.SpriteSheet(tile_set_img).get_sprite(gid, 16, 16, 27)
-#TODO:
-# Make function which returns a 2d dictionary with an image of each tile that is used and its gid
-# rotated tiles get stored as separate images, with the same gid
 
 
 print(this_map.layers[0][0])
@@ -49,12 +46,10 @@ for rots in this_map.layers[0][0]:
     string_unrotated += str(is_tile_rotated(this_map.tile_set, rots)) + " / "
 print(string_unrotated)
 
-tile_map = Sprite.SpriteSheet(this_map.tile_set)
-
 # UPDATE
 done = False
 while not done:
-    delta_time = clock.tick() / 1000
+    #delta_time = clock.tick() / 1000
 
     # INPUT
     event = pygame.event.poll()
@@ -68,13 +63,16 @@ while not done:
     win.fill((0, 0, 0))
 
     # OBJECTS
+    # for row_num in range(self.map_height):
+    #     # render row of tiles
+    #     for col_num in range(self.map_width):
+    #         # render one tile
+    #         cur_code = cur_layer[row_num][col[num]]
+    #         # cur_code is a tile-code (like 14 or 0)
+    #         dest_pos = (???, y)
+    #         src_area = (???, ???)
+    #         surf.blit(???, dest_pos, src_area)
     win.blit(first_sprite, (0, 0))
-
-    # TEXT
-    white = (255, 255, 255)
-    fps_text = "FPS: " + str(round(clock.get_fps()))
-    fps_text_render = font.render(fps_text, True, white)
-    win.blit(fps_text_render, (680, 10))
 
     pygame.display.flip()
 
