@@ -1,6 +1,6 @@
 import json
 
-with open("data\jsonmap.json", "r") as fp:
+with open("data\jsonmap2.json", "r") as fp:
     raw_data = json.load(fp)
     if "width" in raw_data:
         map_width = raw_data['width']
@@ -15,13 +15,17 @@ with open("data\jsonmap.json", "r") as fp:
 
     all_tilesets = raw_data['tilesets']
     first_gid = all_tilesets[0]['firstgid']
-    tileset_name = all_tilesets[0]['name']
+    # tileset_name = all_tilesets[0]['name']
 
     # print 1 layer in numbers
     y = 0
     for x in range(map_height):
-        start = x * (map_width - 1)
+        start = x * map_width
         end = start + map_width
         sublist = first_layer_data[start:end]
 
-        print(first_layer_data)
+        ## print out the tiles in ints
+        # s = ""
+        # for v in sublist:
+        #     s += str(v) + " "
+        # print(s)
