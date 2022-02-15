@@ -1,3 +1,5 @@
+import math
+
 import pygame
 
 class SpriteSheet:
@@ -5,11 +7,20 @@ class SpriteSheet:
     def __init__(self, image):
         self.sheet = image
 
-    def get_sprite(self, frame, width, height, color):
+    def get_x(self, frame, columns):
+        while frame > columns:
+            frame -= columns
+        return (frame - 1) * 16
+
+    def get_sprite(self, frame, tile_width, tile_height, columns):
         """return a specific sprite from sprite sheet"""
-        sprite = pygame.Surface((width, height)).convert_alpha()
-        sprite.set_colorkey(color)
-        sprite.blit(self.sheet, (0, 0), ((frame * width), 0, width, height))
+        sprite = pygame.Surface((tile_width, tile_height)).convert_alpha()
+        sprite.set_colorkey((0, 0, 0))
+        x = self.get_x(frame, columns)
+        y = math.ceil(frame/columns - 1) * 16
+        print(f"x = {x}")
+        print(f"y = {y}")
+        sprite.blit(self.sheet, (0, 0), (x, y, tile_width, tile_height))
         return sprite
 
     def load_animation(self, start_frame, amount_of_frames):

@@ -30,7 +30,14 @@ def is_tile_rotated(tile_set, tile):
 
     return tile
 
-this_map = Map.Map("data\jsonmap2.json")
+this_map = Map.Map("data/jsonmap2.json")
+
+# Get sprites
+tile_set_img = pygame.image.load("data/tilemap_packed.png")
+# get the first tile of the first layer
+gid = is_tile_rotated(this_map.tile_set, this_map.layers[0][1][0])
+print(f"gid: {gid}")
+first_sprite = Sprite.SpriteSheet(tile_set_img).get_sprite(gid, 16, 16, 27)
 
 print(this_map.layers[0][0])
 string_unrotated = ""
@@ -38,7 +45,7 @@ for rots in this_map.layers[0][0]:
     string_unrotated += str(is_tile_rotated(this_map.tile_set, rots)) + " / "
 print(string_unrotated)
 
-tilemap = Sprite.SpriteSheet(this_map.tile_set)
+tile_map = Sprite.SpriteSheet(this_map.tile_set)
 
 # UPDATE
 done = False
@@ -57,7 +64,7 @@ while not done:
     win.fill((0, 0, 0))
 
     # OBJECTS
-
+    win.blit(first_sprite, (0, 0))
 
     # TEXT
     white = (255, 255, 255)
