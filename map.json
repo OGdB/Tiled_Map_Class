@@ -48,7 +48,7 @@
         {
          "columns":30,
          "firstgid":1,
-         "image":"data\/roguelikeDungeon_transparent.png",
+         "image":"Tilemap\/roguelikeDungeon_transparent.png",
          "imageheight":305,
          "imagewidth":492,
          "margin":1,
@@ -62,7 +62,7 @@
         {
          "columns":27,
          "firstgid":571,
-         "image":"data\/tilemap_packed.png",
+         "image":"Tilemap\/tilemap_packed.png",
          "imageheight":288,
          "imagewidth":432,
          "margin":0,
