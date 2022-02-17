@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.8" tiledversion="1.8.1" orientation="orthogonal" renderorder="right-down" width="5" height="5" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="1">
+ <editorsettings>
+  <export target="map.json" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" name="roguelikeDungeon_transparent" tilewidth="16" tileheight="16" margin="1" tilecount="570" columns="30">
   <image source="Tilemap/roguelikeDungeon_transparent.png" trans="ff00ff" width="492" height="305"/>
  </tileset>
@@ -8,14 +11,14 @@
  </tileset>
  <layer id="1" name="Ground" width="5" height="5">
   <data encoding="csv">
-599,1610613713,1033,2684355537,599,
-599,1610613713,1033,2684355537,599,
+599,3758096394,1033,1610613767,599,
+599,2684355591,1033,1610613767,599,
 599,1610613713,1033,2684355537,599,
 599,1610613713,1033,2684355537,599,
 599,1610613713,1033,2684355537,599
 </data>
  </layer>
- <layer id="3" name="Plants" width="5" height="5">
+ <layer id="3" name="Plants" width="5" height="5" visible="0">
   <data encoding="csv">
 0,0,0,0,0,
 94,0,0,0,123,
@@ -24,7 +27,7 @@
 0,0,0,0,0
 </data>
  </layer>
- <layer id="2" name="Objects" width="5" height="5">
+ <layer id="2" name="Objects" width="5" height="5" visible="0">
   <data encoding="csv">
 2147484410,0,0,0,762,
 2147484383,0,0,0,735,
