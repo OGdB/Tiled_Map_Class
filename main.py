@@ -66,11 +66,11 @@ def get_rotation(raw_gid):
     # bits to the right 29 binary digits (making the values less big)
     return special_codes[special_flags]
 
-raw_gid = this_map.layers[0][0][1]
-print(f"raw: {raw_gid}")
-print(f"rotation: {get_rotation(raw_gid)}")
-real = return_real_gid(raw_gid)
-print(f"real: {real}")
+# raw_gid = this_map.layers[0][0][1]
+# print(f"raw: {raw_gid}")
+# print(f"rotation: {get_rotation(raw_gid)}")
+# real = return_real_gid(raw_gid)
+# print(f"real: {real}")
 
 # Deciper and put each tile into its own dictionary.
 # for layer in this_map.layers:
@@ -126,6 +126,11 @@ for layer in this_map.layers:  # for every layer in the layers
                 tiles[tile_gid] = tile_sprite
                 #tiles[tile_gid] = rotation_flag
 print(tiles)
+def get_tile(raw_gid):
+    return tiles[raw_gid]
+
+first_tile = get_tile(this_map.layers[0][0][1])
+print(first_tile)
 
 # UPDATE
 done = True
@@ -143,16 +148,15 @@ while not done:
     # DRAWING
     win.fill((0, 0, 0))
 
+    # for layer in this_map.layers:  # for every layer in the layers
+    #     for row in layer:  # for every row in that layer
+    #         for tile_gid in row:  # for every tile(gid) in that row
+    #             pass
+    # loop through each layer
+        # loop through each row/column
+            # draw tile in correct location accordingly using gid stored in dictionary.
+
     # OBJECTS
-    # for row_num in range(self.map_height):
-    #     # render row of tiles
-    #     for col_num in range(self.map_width):
-    #         # render one tile
-    #         cur_code = cur_layer[row_num][col[num]]
-    #         # cur_code is a tile-code (like 14 or 0)
-    #         dest_pos = (???, y)
-    #         src_area = (???, ???)
-    #         surf.blit(???, dest_pos, src_area)
     #win.blit(first_sprite, (0, 0))
 
     pygame.display.flip()
