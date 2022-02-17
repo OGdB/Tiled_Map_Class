@@ -60,7 +60,7 @@ def decipher(gid):
 def return_real_gid(gid):
     return gid & 0x1FFFFFFF  # This "masks" off the low-order 29 bits (reserved for the code)
 
-def return_rotation(raw_gid):
+def get_rotation(raw_gid):
     special_flags = raw_gid & 0xE0000000  # This "masks" off the high-order 5 bits (everything but the real_code)
     special_flags = special_flags >> 29  # Not technically necessary, but this "shifts" the special flags
     # bits to the right 29 binary digits (making the values less big)
@@ -68,7 +68,7 @@ def return_rotation(raw_gid):
 
 raw_gid = this_map.layers[0][0][1]
 print(f"raw: {raw_gid}")
-print(f"rotation: {return_rotation(raw_gid)}")
+print(f"rotation: {get_rotation(raw_gid)}")
 real = return_real_gid(raw_gid)
 print(f"real: {real}")
 
@@ -90,32 +90,42 @@ for layer in this_map.layers:  # for every layer in the layers
                 tile_set = get_tileset(real_tile)
                 tile_image = pygame.image.load(tile_set['image'])
                 tile_sprite = Sprite.SpriteSheet(tile_image).get_sprite(tile_gid, 16, 16, tile_set['columns'])
+                rotation_flag = get_rotation(tile_gid)
                 # Rotate tilesprite according to gid
-                # if H-GID, flip horizontally
-                # if V-GID, flip vertically
-                # if R-GID, rotate diagonally
+                if rotation_flag == 'rot90':
+                    # rotate 90
+                    tile_sprite = pygame.transform.rotate(tile_sprite, 90)
+                    pass
+                if rotation_flag == 'rot180':
+                    # rotate 180
+                    tile_sprite = pygame.transform.rotate(tile_sprite, 180)
+                    pass
+                if rotation_flag == 'rot270':
+                    # rotate 270
+                    tile_sprite = pygame.transform.rotate(tile_sprite, 270)
+                    pass
+                if rotation_flag == 'flipH':
+                    # flip horizontally
+                    tile_sprite = pygame.transform.flip(tile_sprite, True, False)
+                    pass
+                if rotation_flag == 'flipV':
+                    # flip vertically
+                    tile_sprite = pygame.transform.flip(tile_sprite, False, True)
+                    pass
+                if rotation_flag == 'flipH+rot90':
+                    # rotate flip and rotate 90
+                    tile_sprite = pygame.transform.flip(tile_sprite, True, False)
+                    tile_sprite = pygame.transform.rotate(tile_sprite, 90)
+                    pass
+                if rotation_flag == 'flipH+rot270':
+                    # rotate flip and rotate 270
+                    tile_sprite = pygame.transform.flip(tile_sprite, True, False)
+                    tile_sprite = pygame.transform.rotate(tile_sprite, 270)
+                    pass
 
                 tiles[tile_gid] = tile_sprite
+                #tiles[tile_gid] = rotation_flag
 print(tiles)
-#         if real_tile is not already saved in dictionary
-#             load original real_tile in variable
-#             if (GIDTHINGY), flip original tile horizontally
-#             elif (OTHERGIDTHINGY), flip original tile vertically,
-#             if (FINALGIDTHINGY), rotate original tile diagonally
-#             store the (rotated) image in dictionary with its gid
- # store the rotated images as separate images (not rotating the original every frame)
-
-
-# print(this_map.layers[0])
-# string_unrotated = ""
-# for rots in this_map.layers[0][0]:
-#     string_unrotated += str(rots) + " / "
-# print('\n')
-# for rots in this_map.layers[0][0]:
-#     string_unrotated += str(unrotate_tile(rots)) + " / "
-
-#print(string_unrotated)
-
 
 # UPDATE
 done = True
