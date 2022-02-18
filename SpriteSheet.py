@@ -8,7 +8,7 @@ class SpriteSheet:
         self.sheet = image
 
     def get_x(self, frame, columns):
-        frame = (frame % columns - 1)  # get the remainder of frame / columns as a tile
+        frame = (frame % columns)  # get the remainder of frame / columns as a tile
         return frame * 16
 
     def get_sprite(self, frame, tile_width, tile_height, columns):
@@ -16,7 +16,7 @@ class SpriteSheet:
         sprite = pygame.Surface((tile_width, tile_height)).convert_alpha()
         sprite.set_colorkey((0, 0, 0))
         x = self.get_x(frame, columns)
-        y = math.ceil(frame/columns - 1) * 16
+        y = math.ceil(frame/columns) * 16
         # print(f"x = {x}")
         # print(f"y = {y}")
         sprite.blit(self.sheet, (0, 0), (x, y, tile_width, tile_height))
