@@ -31,3 +31,8 @@ class SpriteSheet:
             animation.append(self.get_sprite(current_frame, 64, 64, (0, 0, 0)))
             current_frame += 1
         return animation
+
+    def flip_sprite(self, hor, ver):
+        self.sheet = pygame.transform.flip(self.sheet, hor, ver)
+        self.sheet.set_colorkey((0, 0, 0))
+        return self.sheet

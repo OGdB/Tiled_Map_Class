@@ -60,56 +60,49 @@ def get_rotation(raw_gid):
 def get_tile(raw_gid):
     return tiles[raw_gid]
 
-def flip_sprite(spr, hor, ver):
-    spr = pygame.transform.flip(spr, hor, ver)
-    spr.set_colorkey((0, 0, 0))
-    return spr
-
 # loop through every layer and store used tile and gid in dictionary
-tiles = {}
-for layer in this_map.layers:  # for every layer in the layers
-    for row in layer:  # for every row in that layer
-        for tile_gid in row:  # for every tile(gid) in that row
-            if tile_gid not in tiles and tile_gid != 0:  # add the tile of that gid to the tile_dictionary if not in it
-                real_tile = return_real_gid(tile_gid)
-                tile_set = get_tileset(real_tile)
-                local_gid = real_tile - tile_set['firstgid']
-                tile_image = pygame.image.load(tile_set['image'])
-                tile_sprite = Sprite.SpriteSheet(tile_image).get_sprite(local_gid, 16, 16, tile_set['columns'])
-                rotation_flag = get_rotation(tile_gid)
+def load_used_tiles():
+    used_tiles = {}
+    for layer in this_map.layers:  # for every layer in the layers
+        for row in layer:  # for every row in that layer
+            for tile_gid in row:  # for every tile(gid) in that row
+                if tile_gid not in used_tiles and tile_gid != 0:  # add the tile of that gid to the tile_dictionary if not in it
+                    real_tile = return_real_gid(tile_gid)
+                    tile_set = get_tileset(real_tile)
+                    local_gid = real_tile - tile_set['firstgid']
+                    tile_image = pygame.image.load(tile_set['image'])
+                    tile_sprite = Sprite.SpriteSheet(tile_image).get_sprite(local_gid, 16, 16, tile_set['columns'])
+                    rotation_flag = get_rotation(tile_gid)
 
-                # Rotate tilesprite according to gid
-                if rotation_flag == 'rot90':
-                    tile_sprite = pygame.transform.rotate(tile_sprite, 90)
+                    # Rotate tilesprite according to gid
+                    if rotation_flag == 'rot90':
+                        tile_sprite = pygame.transform.rotate(tile_sprite, 90)
 
-                if rotation_flag == 'rot180':
-                    tile_sprite = pygame.transform.rotate(tile_sprite, 180)
+                    if rotation_flag == 'rot180':
+                        tile_sprite = pygame.transform.rotate(tile_sprite, 180)
 
-                if rotation_flag == 'rot270':
-                    tile_sprite = pygame.transform.rotate(tile_sprite, 270)
+                    if rotation_flag == 'rot270':
+                        tile_sprite = pygame.transform.rotate(tile_sprite, 270)
 
-                if rotation_flag == 'flipH':
-                    tile_sprite = flip_sprite(tile_sprite, True, False)
+                    if rotation_flag == 'flipH':
+                        tile_sprite = Sprite.SpriteSheet(tile_sprite).flip_sprite(True, False)
 
-                if rotation_flag == 'flipV':
-                    tile_sprite = flip_sprite(tile_sprite, False, True)
+                    if rotation_flag == 'flipV':
+                        tile_sprite = Sprite.SpriteSheet(tile_sprite).flip_sprite(False, True)
 
-                if rotation_flag == 'flipH+rot90':
-                    tile_sprite = flip_sprite(tile_sprite, True, False)
-                    tile_sprite = pygame.transform.rotate(tile_sprite, 90)
+                    if rotation_flag == 'flipH+rot90':
+                        tile_sprite = Sprite.SpriteSheet(tile_sprite).flip_sprite(True, False)
+                        tile_sprite = pygame.transform.rotate(tile_sprite, 90)
 
-                if rotation_flag == 'flipH+rot270':
-                    tile_sprite = flip_sprite(tile_sprite, False, True)
-                    tile_sprite = pygame.transform.rotate(tile_sprite, 270)
+                    if rotation_flag == 'flipH+rot270':
+                        tile_sprite = Sprite.SpriteSheet(tile_sprite).flip_sprite(True, False)
+                        tile_sprite = pygame.transform.rotate(tile_sprite, 270)
 
-                tiles[tile_gid] = tile_sprite
+                    used_tiles[tile_gid] = tile_sprite
+    return used_tiles
 
+tiles = load_used_tiles()
 
-# for layer in this_map.layers:  # for every layer in the layers
-#     for row in layer:  # for every row in that layer
-#         for tile_gid in row:  # for every tile(gid) in that row
-#             if tile_gid != 0:
-#                 print(tile_gid)
 # UPDATE
 done = False
 while not done:
@@ -125,17 +118,6 @@ while not done:
     # DRAWING
     win.fill((0, 0, 0))
 
-# for layer in range(len(this_map.layers)):  # for every layer in the layers
-#     this_layer = this_map.layers[layer]
-#     for row_index in range(len(this_layer)):  # for every row in that layer
-#         this_row = this_layer[row_index]
-#         tile_y_pos = row_index * 16
-#         for tile_index in range(len(this_row)):  # for every tile(gid) in that row
-#             tile_gid = this_row[tile_index]
-#             if tile_gid != 0:
-#                 tile_x_pos = tile_index * 16
-#                 win.blit(tiles[tile_gid], (tile_x_pos, tile_y_pos))
-
     for layer_index in range(len(this_map.layers)):  # for every layer in the layers
         this_layer = this_map.layers[layer_index]
         for row_index in range(len(this_layer)):
@@ -146,11 +128,6 @@ while not done:
                 if this_tile != 0:
                     tile_x_pos = tile_index * 16
                     win.blit(tiles[this_tile], (tile_x_pos, tile_y_pos))
-
-
-
-    # OBJECTS
-    #win.blit(tiles[this_map.layers[0][0][0]], (0, 0))
 
     pygame.display.flip()
 
