@@ -2,6 +2,17 @@ import json
 import pygame
 import SpriteSheet as Sprite
 
+def return_real_gid(gid):
+    return gid & 0x1FFFFFFF  # This "masks" off the low-order 29 bits (reserved for the code)
+
+special_codes = {0: "normal", 3: "rot90", 6: "rot180", 5: "rot270", 4: "flipH", 2: "flipV", 1: "flipH+rot90",
+                 7: "flipH+rot270"}
+def get_rotation(raw_gid):
+    special_flags = raw_gid & 0xE0000000  # This "masks" off the high-order 5 bits (everything but the real_code)
+    special_flags = special_flags >> 29  # Not technically necessary, but this "shifts" the special flags
+    # bits to the right 29 binary digits (making the values less big)
+    return special_codes[special_flags]
+
 class Map:
     """Class with functions to read map data from json files made with Tiled"""
     def __init__(self, json_path):
@@ -30,9 +41,6 @@ class Map:
 
                 self.layers.append(layer_in_lists)
 
-    special_codes = {0: "normal", 3: "rot90", 6: "rot180", 5: "rot270", 4: "flipH", 2: "flipV", 1: "flipH+rot90",
-                     7: "flipH+rot270"}
-
     def get_tileset(self, tile_gid):
         """Return the tileset whic the provided gid is from"""
         if tile_gid != 0:
@@ -42,15 +50,6 @@ class Map:
                 if tile_set_start <= tile_gid <= tile_set_end:
                     return tile_set
 
-    def return_real_gid(self, gid):
-        return gid & 0x1FFFFFFF  # This "masks" off the low-order 29 bits (reserved for the code)
-
-    def get_rotation(self, raw_gid):
-        special_flags = raw_gid & 0xE0000000  # This "masks" off the high-order 5 bits (everything but the real_code)
-        special_flags = special_flags >> 29  # Not technically necessary, but this "shifts" the special flags
-        # bits to the right 29 binary digits (making the values less big)
-        return self.special_codes[special_flags]
-
     # loop through every layer and store used tile and gid in dictionary
     def load_used_tiles(self):
         used_tiles = {}
@@ -58,12 +57,12 @@ class Map:
             for row in layer:  # for every row in that layer
                 for tile_gid in row:  # for every tile(gid) in that row
                     if tile_gid not in used_tiles and tile_gid != 0:  # add the tile of that gid to the tile_dictionary if not in it
-                        real_tile = self.return_real_gid(tile_gid)
+                        real_tile = return_real_gid(tile_gid)
                         tile_set = self.get_tileset(real_tile)
                         local_gid = real_tile - tile_set['firstgid']
                         tile_image = pygame.image.load(tile_set['image'])
                         tile_sprite = Sprite.SpriteSheet(tile_image).get_sprite(local_gid, 16, 16, tile_set['columns'])
-                        rotation_flag = self.get_rotation(tile_gid)
+                        rotation_flag = get_rotation(tile_gid)
 
                         # Rotate tilesprite according to gid
                         if rotation_flag == 'rot90':
@@ -91,3 +90,15 @@ class Map:
 
                         used_tiles[tile_gid] = tile_sprite
         return used_tiles
+
+    def draw_map(self, win, tiles):
+        for layer_index in range(len(self.layers)):  # for every layer in the layers
+            this_layer = self.layers[layer_index]
+            for row_index in range(len(this_layer)):
+                this_row = this_layer[row_index]
+                tile_y_pos = row_index * 16
+                for tile_index in range(len(this_row)):
+                    this_tile = this_row[tile_index]
+                    if this_tile != 0:
+                        tile_x_pos = tile_index * 16
+                        win.blit(tiles[this_tile], (tile_x_pos, tile_y_pos))
