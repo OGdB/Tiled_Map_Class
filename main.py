@@ -22,8 +22,6 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-            if event.key == pygame.K_ESCAPE:
-                done = True
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
         y += move_speed * delta_time
