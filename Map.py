@@ -89,7 +89,7 @@ class Map:
 
                             self.used_tiles[tile_gid] = tile_sprite
 
-    def draw_map(self, win):
+    def render_map(self, win, xPos, yPos):
         for layer_index in range(len(self.layers)):  # for every layer in the layers
             this_layer = self.layers[layer_index]
             for row_index in range(len(this_layer)):
@@ -99,4 +99,6 @@ class Map:
                     this_tile = this_row[tile_index]
                     if this_tile != 0:
                         tile_x_pos = tile_index * 16
-                        win.blit(self.used_tiles[this_tile], (tile_x_pos, tile_y_pos))
+                        win.blit(self.used_tiles[this_tile], (tile_x_pos + xPos, tile_y_pos + yPos))
+
+#win.blit(M.background_image, (0, 0), (camera_x, camera_y, 800, 600))
