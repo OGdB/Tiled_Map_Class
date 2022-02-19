@@ -1,15 +1,13 @@
 import Map
 import pygame
-import SpriteSheet as Sprite
 
 pygame.init()
-this_map = Map.Map("map.json")
 
-win_w = this_map.map_width * this_map.tile_width
-win_h = this_map.map_height * this_map.tile_height
+win_w = 300
+win_h = 300
 win = pygame.display.set_mode((win_w, win_h))
 
-tiles = this_map.load_used_tiles()
+this_map = Map.Map("map.json")
 
 done = False
 while not done:
@@ -25,7 +23,7 @@ while not done:
     # DRAWING
     win.fill((0, 0, 0))
 
-    this_map.draw_map(win, tiles)
+    this_map.draw_map(win)
 
     pygame.display.flip()
 

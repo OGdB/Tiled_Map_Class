@@ -1,5 +1,4 @@
 import math
-
 import pygame
 
 class SpriteSheet:
@@ -17,8 +16,6 @@ class SpriteSheet:
         sprite.set_colorkey((0, 0, 0))
         x = self.get_x(frame, columns)
         y = math.floor(frame/columns) * 16
-        # print(f"x = {x}")
-        # print(f"y = {y}")
         sprite.blit(self.sheet, (0, 0), (x, y, tile_width, tile_height))
         return sprite
 
